@@ -16,3 +16,8 @@ Life is too short
 You need python
 """
 print(multiline)
+
+import mod1
+
+print(mod1.add(9,3))
+print(mod1.sub(9,3))
