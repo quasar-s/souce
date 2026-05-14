@@ -1,0 +1,10 @@
+{
+  "name": "John Doe",
+  "age": 30,
+  "isStudent": false,
+  "hobbies": ["reading", "coding"],
+  "address": {
+    "city": "Seoul",
+    "zipcode": "12345"
+  }
+}

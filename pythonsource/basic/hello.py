@@ -17,7 +17,18 @@ You need python
 """
 print(multiline)
 
-import mod1
+# import mod1
 
-print(mod1.add(9,3))
-print(mod1.sub(9,3))
+# print(mod1.add(9,3))
+# print(mod1.sub(9,3))
+
+# from mod1 import add
+
+# print(add(4,5))
+
+# *: 모두
+
+from mod1 import *
+
+print(add(4,5))
+print(sub(4,5))
