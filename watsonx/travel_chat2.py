@@ -70,12 +70,34 @@ def recommend(message, history):
     # 사용하는 모델 한가지 이미지만 해석가능
     # => 이전 답변은 텍스트만 보냄
     for item in history:
-        content = item["content"][0]["text"]
-        messages.append({"role": item["role"], "content": content})
+        role = item["role"]
+        content = item["content"]
+
+        # assistant 응답 저장
+        texts = []
+
+        if isinstance(content, list):
+            for c in content:
+                # 텍스트만 추출
+                if c.get("type") == "text":
+                    texts.append(c.get("text", ""))
+        elif isinstance(content, str):
+            texts.append(content)
+
+        messages.append({"role": role, "content": "".join(texts)})
+
+    # for item in history:
+    #     if isinstance(item["content"], list):
+    #         text_items = [c["text"] for c in item["content"] if c.get(type) == "text"]
+    #         text_combind = "".join(text_items)
+    #         messages.append({"role": item["role"], "content": text_combind})
+    #     else:
+    #         messages.append({"role": item["role"], "content": item["content"]})
 
     # message : text, files
     text = message.get("text", "")
     files = message.get("file", "")
+    # files = message.get("file", [])
 
     if files:
         image = Image.open(files[0])
