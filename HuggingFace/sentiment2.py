@@ -5,6 +5,9 @@ from transformers import pipeline
 classifier = pipeline(
     "sentiment-analysis", model="tabularisai/multilingual-sentiment-analysis"
 )
+# classifier = pipeline(
+#     "sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment"
+# )
 
 
 def analysis(text):
