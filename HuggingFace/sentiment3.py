@@ -2,32 +2,33 @@ import gradio as gr
 from transformers import pipeline
 import re
 
+# 문장 여러개 = 파일화
+# 리뷰 데이터 => 파일 분석
+
 en_classifier = pipeline("sentiment-analysis", top_k=None)  # 감정 분석
 ko_classifier = pipeline(
     "sentiment-analysis", model="WhitePeak/bert-base-cased-Korean-sentiment", top_k=None
 )  # 감정 분석
 
-g_results = ""
-g_language = ""
-
 
 def is_korean(text):
-    global g_results, g_language
     korean = re.search(r"[가-힣]", text)
 
-    if korean != None:
-        g_language = "한국어 모델"
-        g_results = ko_classifier(text)[0]
-    else:
-        g_language = "영어 모델"
-        g_results = en_classifier(text)[0]
+    return korean is not None
 
 
 def analysis(text):
-    global g_results, g_language
+    results_text = ""
 
-    is_korean(text)
+    # 엔터를 기준으로 문장 분리
+    sentences = text.splitlines()
+    sentences = [s.strip() for s in sentences if s.strip()]
+
     # 언어 구별
+    if is_korean(text):
+        results = ko_classifier(sentences)
+    else:
+        results = en_classifier(sentences)
 
     label_map = {
         "LABEL_0": "부정 👿",
@@ -36,12 +37,15 @@ def analysis(text):
         "POSITIVE": "긍정 😇",
     }
 
-    scores = {}
+    for sentence, result in zip(sentences, results):
+        best = max(result, key=lambda x: x["score"])
+        label = best["label"]
+        label = label_map.get(label, label)
+        score = best["score"]
 
-    for item in g_results:
-        label = item["label"]
-        scores[label_map.get(label, label)] = item["score"]
-    return scores
+        results_text += f"문장 : {sentence}\n감정 : {label}\n확률 : {score:.4f}\n\n"
+
+    return results_text
 
 
 demo = gr.Interface(
@@ -49,7 +53,7 @@ demo = gr.Interface(
     inputs=[
         gr.Textbox(lines=3, placeholder="여기에 텍스트를 입력하세요", label="text")
     ],
-    outputs=[gr.Label(num_top_classes=2)],
+    outputs=[gr.Textbox(label="분석 결과", lines=10)],
     title="다국어 감정 분석 웹앱",
     description="영어는 Hugging Face 기본 모델, 한국어는 KoBERT 기반 감정분석 모델 사용.",
 )

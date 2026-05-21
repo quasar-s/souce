@@ -16,10 +16,10 @@ def analysis(text):
     label = result[0]["label"]
     score = result[0]["score"]
 
-    if "Negative" in label:
-        sentiment = "부정"
-    elif "Positive" in label:
-        sentiment = "긍정"
+    if "Negative" or "negative" in label:
+        sentiment = "👿부정"
+    elif "Positive" or "positive" in label:
+        sentiment = "😇긍정"
     else:
         sentiment = label
 
