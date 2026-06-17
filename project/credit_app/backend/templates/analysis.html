@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>신용카드 사용내역 분석</h2>
+    <div>
+        <input type="text" name="question" id="question" size="50">
+        <button type="button">질문하기</button>
+    </div>
+    <hr>
+    <div id="answer"></div>
+    <script src="{{ url_for('static', path='js/analysis.js')}}"></script> 
+</body>
+</html>

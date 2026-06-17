@@ -6,19 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>RAG</h2>
+    <h2>카드 정보 추가</h2>
     <div>
         <input type="file" name="file" id="file">
         <button id="uploadBtn">업로드</button>
     </div>
     <hr>
     <div id="result"></div>
-    <hr>
-    <div>
-        <input type="text" name="question" id="question">
-        <button id="askBtn">질문하기</button>
-    </div>
-    <div id="answer_result"></div>
-    <script src="{{url_for('static',path='js/index.js')}}"></script>
+    <script src="{{url_for('static',path='js/card.js')}}"></script>
 </body>
 </html>
