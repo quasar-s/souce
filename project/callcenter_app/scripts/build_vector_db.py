@@ -12,7 +12,7 @@ def main():
 
     documents = []
     # Document 객체 생성
-    for file_path in data_dir.glob("*.text"):
+    for file_path in data_dir.glob("*.txt"):
         content = file_path.read_text(encoding="utf-8")
         documents.append(
             Document(page_content=content, metadata={"source": file_path.name})
